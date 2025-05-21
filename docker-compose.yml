@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    ports:
+      - "3131:3131"
+    environment:
+      # À adapter selon ton .env et Easypanel
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - APP_KEY=base64:AMCOlH9mzj8ejW902IV6x9HZBTytnMCeXxw22pn2O24=  # Mets ta vraie clé ici
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=thedrop247
+      - DB_USERNAME=root
+      - DB_PASSWORD=
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: thedrop247
+      MYSQL_ROOT_PASSWORD:
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+
+volumes:
+  dbdata:
